@@ -1,6 +1,4 @@
 import Slide from "./slide.js";
 
-const slide = new Slide(".slide", ".wrapper");
+const slide = new Slide(".slide", ".wrapper", "button");
 slide.init();
-
-slide.changeSlide(2);

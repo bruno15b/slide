@@ -9,6 +9,10 @@ export default class Slide {
     };
   }
 
+  transition(active) {
+    this.slide.style.transition = active ? "transform .3s" : "";
+  }
+
   moveSlide(distX) {
     this.slide.style.transform = `translate3d(${distX}px,0,0)`;
     this.dist.movePosition = distX;
@@ -29,6 +33,26 @@ export default class Slide {
     const pointerPosition = event.type === "mouseup" ? "mousemove" : "touchmove";
     this.dist.finalPosition = this.dist.movePosition;
     this.wrapper.removeEventListener("mousemove", this.onMove);
+    this.transition(true);
+    this.changeSlideOnFinish();
+  }
+
+  activNextSlide() {
+    if (this.index.next) this.changeSlide(this.index.next);
+  }
+
+  activePrevSlide() {
+    if (this.index.prev !== undefined) this.changeSlide(this.index.prev);
+  }
+
+  changeSlideOnFinish() {
+    if (this.dist.movement > 20 && this.index.next !== undefined) {
+      this.activNextSlide();
+    } else if (this.dist.movement < -20 && this.index.prev !== undefined) {
+      this.activePrevSlide();
+    } else {
+      this.changeSlide(this.index.active);
+    }
   }
 
   onStart(event) {
@@ -42,6 +66,7 @@ export default class Slide {
       moveType = "touchmove";
     }
     this.wrapper.addEventListener(moveType, this.onMove);
+    this.transition(false);
   }
 
   bindEvents() {
@@ -59,11 +84,11 @@ export default class Slide {
 
   slidesIndexNav(index) {
     const last = this.slideArray.length - 1;
-    this.index = {
+    return (this.index = {
       prev: index ? index - 1 : undefined,
       active: index,
       next: index === last ? undefined : index + 1,
-    };
+    });
   }
 
   slideConfig() {
@@ -86,13 +111,15 @@ export default class Slide {
 
   changeSlide(index) {
     this.moveSlide(this.offsetWidthMarginLeft(index));
-    this.slidesIndexNav(index);
+    console.log(this.slidesIndexNav(index));
     this.dist.finalPosition = this.offsetWidthMarginLeft(index);
   }
 
   init() {
+    this.transition();
     this.bindEvents();
     this.addSlideEvents();
+    this.changeSlide(2);
     return this;
   }
 }
