@@ -1,1 +1,4 @@
-console.log("oi");
+import Slide from "./slide.js";
+
+const slide = new Slide(".slide", ".wrapper");
+slide.init();
