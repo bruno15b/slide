@@ -57,6 +57,39 @@ export default class Slide {
     this.wrapper.addEventListener("touchend", this.onFinish);
   }
 
+  slidesIndexNav(index) {
+    const last = this.slideArray.length - 1;
+    this.index = {
+      prev: index ? index - 1 : undefined,
+      active: index,
+      next: index === last ? undefined : index + 1,
+    };
+  }
+
+  slideConfig() {
+    this.slideArray = [...this.slide.children].map((item) => {
+      const position = item.offsetLeft;
+      return { item, position };
+    });
+    return this.slideArray;
+  }
+
+  calcMargin(index) {
+    return (this.wrapper.offsetWidth - this.slideConfig()[index].item.offsetWidth) / 2;
+  }
+
+  offsetWidthMarginLeft(index) {
+    const position = this.slideConfig()[index].position;
+    const margin = this.calcMargin(index);
+    return -(position - margin);
+  }
+
+  changeSlide(index) {
+    this.moveSlide(this.offsetWidthMarginLeft(index));
+    this.slidesIndexNav(index);
+    this.dist.finalPosition = this.offsetWidthMarginLeft(index);
+  }
+
   init() {
     this.bindEvents();
     this.addSlideEvents();
