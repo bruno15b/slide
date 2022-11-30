@@ -62,6 +62,7 @@ export class Slide {
       this.changeSlide(this.index.active);
     }
     this.changeActiveClass();
+    this.activeControlItem();
   }
 
   onStart(event) {
@@ -149,6 +150,9 @@ export class Slide {
     this.changeActiveClass();
     this.addResizeEvent();
     this.addClickNavEvent();
+    this.addControl();
+    this.activeFirstItem();
+
     return this;
   }
 }
@@ -156,17 +160,62 @@ export class Slide {
 export class SlideNav extends Slide {
   clickSlide(event) {
     event.preventDefault();
-    const form = document.forms.nav;
-    if (form.next == event.target) {
+    this.form = document.forms.nav;
+    if (this.form.next == event.target) {
       this.activNextSlide();
-      this.changeActiveClass();
-    } else if (form.prev == event.target) {
+    } else if (this.form.prev == event.target) {
       this.activePrevSlide();
-      this.changeActiveClass();
     }
+    this.changeActiveClass();
+    this.activeControlItem();
   }
 
   addClickNavEvent() {
     document.forms.nav.addEventListener("click", this.clickSlide);
+  }
+
+  createControl() {
+    const control = document.createElement("ul");
+    control.dataset.control = "slide";
+    this.slideArray.forEach((item, index) => {
+      control.innerHTML += `<li><a href="#slide${index + 1}">${index}</a></li>`;
+    });
+    document.body.insertBefore(control, document.forms.nav);
+    return control;
+  }
+
+  activeFirstItem() {
+    this.controlArray[this.index.active].classList.add(this.activeClass);
+  }
+
+  activeControlItem() {
+    this.controlArray.forEach((item) => {
+      item.classList.remove(this.activeClass);
+    });
+    this.activeFirstItem();
+  }
+
+  removeCLass() {
+    this.slideArray.forEach((slide) => {
+      slide.item.classList.remove(this.activeClass);
+    });
+  }
+
+  eventControl(item, index) {
+    item.addEventListener("click", (event) => {
+      event.preventDefault();
+      this.changeSlide(index);
+      this.removeCLass();
+      this.changeActiveClass();
+      this.activeControlItem();
+    });
+  }
+
+  addControl(customControl) {
+    this.control = document.querySelector(customControl) || this.createControl();
+    this.controlArray = [...this.control.children];
+    this.controlArray.forEach((item, index) => {
+      this.eventControl(item, index);
+    });
   }
 }
