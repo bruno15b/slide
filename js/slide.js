@@ -1,5 +1,5 @@
 import debounce from "./debounce.js";
-export default class Slide {
+export class Slide {
   constructor(slide, wrapper) {
     this.slide = document.querySelector(slide);
     this.wrapper = document.querySelector(wrapper);
@@ -118,7 +118,7 @@ export default class Slide {
 
   changeSlide(index) {
     this.moveSlide(this.offsetWidthMarginLeft(index));
-    console.log(this.slidesIndexNav(index));
+    this.slidesIndexNav(index);
     this.dist.finalPosition = this.offsetWidthMarginLeft(index);
   }
 
@@ -138,6 +138,7 @@ export default class Slide {
     this.onMove = this.onMove.bind(this);
     this.onFinish = this.onFinish.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 50);
+    this.clickSlide = this.clickSlide.bind(this);
   }
 
   init() {
@@ -147,6 +148,26 @@ export default class Slide {
     this.changeSlide(2);
     this.changeActiveClass();
     this.addResizeEvent();
+    this.addClickNavEvent();
     return this;
+  }
+}
+
+export class SlideNav extends Slide {
+  clickSlide(event) {
+    event.preventDefault();
+    const form = document.forms.nav;
+    console.log(form.next);
+    if (form.next == event.target) {
+      this.activNextSlide();
+      this.changeActiveClass();
+    } else if (form.prev == event.target) {
+      this.activePrevSlide();
+      this.changeActiveClass();
+    }
+  }
+
+  addClickNavEvent() {
+    document.forms.nav.addEventListener("click", this.clickSlide);
   }
 }
