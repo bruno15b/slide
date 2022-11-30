@@ -44,7 +44,7 @@ img {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 #nav {
-  margin-top: 60px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   gap: 50px;
@@ -58,4 +58,27 @@ img {
   border: 1px solid;
   border-radius: 5px;
   height: 30px;
+  text-align: center;
+}
+
+[data-control="slide"] {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+[data-control="slide"] li {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  text-indent: -999px;
+  background: #fb5;
+  border: 1px solid;
+}
+
+[data-control="slide"] li.active,
+[data-control="slide"] li:hover {
+  background: rgb(211, 100, 100);
 }
