@@ -75,7 +75,7 @@ img {
   overflow: hidden;
   text-indent: -999px;
   background: #fb5;
-  border: 1px solid;
+  border: 1px solid black;
 }
 
 [data-control="slide"] li.active,
