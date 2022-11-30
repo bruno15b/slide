@@ -157,7 +157,6 @@ export class SlideNav extends Slide {
   clickSlide(event) {
     event.preventDefault();
     const form = document.forms.nav;
-    console.log(form.next);
     if (form.next == event.target) {
       this.activNextSlide();
       this.changeActiveClass();
