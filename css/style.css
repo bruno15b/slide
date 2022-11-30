@@ -18,7 +18,7 @@ img {
 }
 
 .slide {
-  margin-top: 60px;
+  margin-top: 30px;
   display: flex;
 }
 
@@ -81,4 +81,27 @@ img {
 [data-control="slide"] li.active,
 [data-control="slide"] li:hover {
   background: rgb(211, 100, 100);
+}
+
+.custom-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.custom-controls li {
+  opacity: 0.8;
+  transform: scale(0.8);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 2px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.custom-controls li.active {
+  opacity: 1;
+  transform: scale(1);
 }
