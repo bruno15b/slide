@@ -142,17 +142,16 @@ export class Slide {
     this.clickSlide = this.clickSlide.bind(this);
   }
 
-  init() {
+  init(inicio, customControl) {
     this.transition();
     this.bindEvents();
     this.addSlideEvents();
-    this.changeSlide(2);
+    this.changeSlide(inicio);
     this.changeActiveClass();
-    this.addResizeEvent();
     this.addClickNavEvent();
-    this.addControl();
+    this.addResizeEvent();
+    this.addControl(customControl);
     this.activeFirstItem();
-
     return this;
   }
 }
